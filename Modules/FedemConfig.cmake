@@ -16,8 +16,6 @@ elseif ( UNIX )
   set ( LINUX YES )
 endif ( WIN32 OR WIN64 )
 
-include ( Functions )
-
 # Define some optional configuration settings
 
 option ( FTENV_VERBOSE "Enable more output during Configure" OFF )

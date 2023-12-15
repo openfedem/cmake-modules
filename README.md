@@ -30,7 +30,6 @@ and what they do:
   Currently, gcc on Linux (Ubuntu) and MS Visual Studio with Intel Fortran
   on Windows is supported. This file needs to be included in the top-level
   `CMakeLists.txt` file of the build project.
-- `Functions.cmake` contains some general function and macro definitions.
 - `Date.cmake` defines the macro `date()` for creating time stamp source files
    that generates the build date in the compiled binaries.
 - `GTest.cmake` defines the function `add_cpp_test()` for defining a C++
