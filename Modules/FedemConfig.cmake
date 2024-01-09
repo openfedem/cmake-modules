@@ -5,7 +5,7 @@
 # This file is part of FEDEM - https://openfedem.org
 
 ###############################################
-# General cmake configuration setup for Fedem #
+# General cmake configuration setup for FEDEM #
 ###############################################
 
 set ( WIN NO )
@@ -22,8 +22,7 @@ option ( FTENV_VERBOSE "Enable more output during Configure" OFF )
 option ( FTENV_WARNINGS "Enable extra compiler warnings" ON )
 
 option ( PLATFORM_BITSIZE_IS_64_BIT "Use default bitsize of 64 bit" ON )
-option ( USE_MKL "Use MKL for BLAS/LAPack, if available" ${WIN} )
-mark_as_advanced ( PLATFORM_BITSIZE_IS_64_BIT USE_MKL )
+mark_as_advanced ( PLATFORM_BITSIZE_IS_64_BIT )
 if ( LINUX )
   option ( USE_INTEL_FORTRAN "Use the Intel Fortran compiler" OFF )
   mark_as_advanced ( USE_INTEL_FORTRAN )
