@@ -13,6 +13,9 @@
 if ( PFUNIT_PATH )
   # Find the Fortran unit testing framework
   if ( PFUNIT_PATH MATCHES PFUNIT-4 )
+    if ( POLICY CMP0074 )
+      cmake_policy ( SET CMP0074 NEW ) # using <package>_ROOT variables
+    endif ( POLICY CMP0074 )
     find_package ( PFUNIT )
     # Deactivate pFUnit 4 for Coverage build due to run-time problems.
     # Probably a gfortran compiler issue. Revisit this when upgrading the build OS.
@@ -20,7 +23,7 @@ if ( PFUNIT_PATH )
       if ( CMAKE_HOST_SYSTEM_VERSION MATCHES "Microsoft" )
         message ( WARNING " pFUnit4 is disabled for Coverage build on Microsoft WSL.
  Therefore, all Fortran unit tests will be omitted." )
-          set ( PFUNIT_FOUND OFF )
+        set ( PFUNIT_FOUND OFF )
       else ( CMAKE_HOST_SYSTEM_VERSION MATCHES "Microsoft" )
         set ( pFUnit_FOUND ${PFUNIT_FOUND} )
       endif ( CMAKE_HOST_SYSTEM_VERSION MATCHES "Microsoft" )
@@ -28,6 +31,7 @@ if ( PFUNIT_PATH )
       set ( pFUnit_FOUND ${PFUNIT_FOUND} )
     endif ( PFUNIT_FOUND AND CMAKE_BUILD_TYPE STREQUAL "Coverage" )
   else ( PFUNIT_PATH MATCHES PFUNIT-4 )
+    # Check for pFUnit 3
     find_package ( PythonInterp 3 ) # enforce using python3
     if ( PythonInterp_FOUND )
       find_package ( pFUnit )
@@ -42,6 +46,8 @@ unset ( pFUnit_DIR CACHE )
 
 if ( pFUnit_FOUND )
   message ( STATUS "NOTE : Configuring with Fortran unit tests." )
+  get_filename_component ( PARENT_DIR ${CMAKE_CURRENT_LIST_DIR} PATH )
+  get_filename_component ( PARENT_DIR ${PARENT_DIR} PATH )
 
   # Macro for specifying some additional fortran compiler flags for the unit tests
   macro ( enable_fortran_tests )
@@ -49,9 +55,11 @@ if ( pFUnit_FOUND )
     if ( USE_SRCDIR )
       if ( PFUNIT_FOUND )
         # pFUnit 4 is used.
-        # Enable use of the fUnitExtra::get_srcdir subroutine.
-        configure_file ( ${PROJECT_SOURCE_DIR}/src/pFUnitExtra.f90.in pFUnitExtra.f90 )
-        string ( APPEND CMAKE_Fortran_FLAGS " -DPFUNIT_EXTRA_USE=fUnitExtra -DPFUNIT_EXTRA_INITIALIZE=get_srcdir" )
+        if ( EXISTS ${PARENT_DIR}/pFUnit/pFUnitExtra.f90.in )
+          # Enable use of the fUnitExtra::get_srcdir subroutine.
+          configure_file ( ${PARENT_DIR}/pFUnit/pFUnitExtra.f90.in pFUnitExtra.f90 )
+          string ( APPEND CMAKE_Fortran_FLAGS " -DPFUNIT_EXTRA_USE=fUnitExtra -DPFUNIT_EXTRA_INITIALIZE=get_srcdir" )
+        endif ( EXISTS ${PARENT_DIR}/pFUnit/pFUnitExtra.f90.in )
       else ( PFUNIT_FOUND )
         # pFUnit 3 is used.
         # Enable use of the pFUnitArgs::get_srcdir function.
@@ -85,14 +93,14 @@ if ( pFUnit_FOUND )
     message ( STATUS "INFORMATION : Adding unit test from ${TEST_NAME}" )
     cmake_parse_arguments ( USE SRCDIR "" "" ${ARGN} )
     if ( USE_SRCDIR )
-      if ( PFUNIT_FOUND )
+      if ( PFUNIT_FOUND AND EXISTS pFUnitExtra.f90 )
         # For pFUnit 4, using the configured f90-file
         set ( EXTRA_SRCS pFUnitExtra.f90 )
-      else ( PFUNIT_FOUND )
+      elseif ( EXISTS ${PARENT_DIR}/pFUnit/pFUnitExtraArg.f90 )
         # For pFUnit 3, add the --srcdir option for passing the source directory
-        set ( EXTRA_SRCS ${PROJECT_SOURCE_DIR}/src/pFUnitExtraArg.f90 )
+        set ( EXTRA_SRCS ${PARENT_DIR}/pFUnit/pFUnitExtraArg.f90 )
         set ( EXTRA_ARGS ARGS "--srcdir=${CMAKE_CURRENT_SOURCE_DIR}" )
-      endif ( PFUNIT_FOUND )
+      endif ( PFUNIT_FOUND AND EXISTS pFUnitExtra.f90 )
     else ( USE_SRCDIR )
       set ( EXTRA_SRCS "" )
     endif ( USE_SRCDIR )

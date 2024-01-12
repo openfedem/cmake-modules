@@ -12,7 +12,7 @@
 
 ## About this project
 
-This project contains a set of general [cmake](https://cmake.org/)
+This project contains a set of general [CMake](https://cmake.org/)
 configuration files, used for building the program modules of FEDEM.
 
 ## Requirements and Setup
@@ -50,7 +50,11 @@ and what they do:
 
 ## Contributing
 
-This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/cmake-modules/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
+This project is open to feature requests, suggestions, bug reports, etc.,
+via [GitHub issues](https://github.com/SAP/cmake-modules/issues).
+Contributions and feedback are encouraged and always welcome.
+For more information about how to contribute,
+see our [Contribution Guidelines](.github/CONTRIBUTING.md).
 
 ## Security / Disclosure
 
