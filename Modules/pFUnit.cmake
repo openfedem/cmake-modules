@@ -51,6 +51,11 @@ if ( pFUnit_FOUND )
 
   # Macro for specifying some additional fortran compiler flags for the unit tests
   macro ( enable_fortran_tests )
+    if ( PFUNIT_FOUND )   # pFUnit 4 is used
+      set ( PFUNIT_EXTRA " -DPFUNIT_EXTRA_USE=fUnitExtra -DPFUNIT_EXTRA_INITIALIZE=get_srcdir" )
+    else ( PFUNIT_FOUND ) # pFUnit 3 is used
+      set ( PFUNIT_EXTRA " -DPFUNIT_EXTRA_USAGE=pFUnitArgs -DPFUNIT_EXTRA_ARGS=get_srcdir" )
+    endif ( PFUNIT_FOUND )
     cmake_parse_arguments ( USE SRCDIR "" "" ${ARGN} )
     if ( USE_SRCDIR )
       if ( PFUNIT_FOUND )
@@ -58,13 +63,16 @@ if ( pFUnit_FOUND )
         if ( EXISTS ${PARENT_DIR}/pFUnit/pFUnitExtra.f90.in )
           # Enable use of the fUnitExtra::get_srcdir subroutine.
           configure_file ( ${PARENT_DIR}/pFUnit/pFUnitExtra.f90.in pFUnitExtra.f90 )
-          string ( APPEND CMAKE_Fortran_FLAGS " -DPFUNIT_EXTRA_USE=fUnitExtra -DPFUNIT_EXTRA_INITIALIZE=get_srcdir" )
+          string ( APPEND CMAKE_Fortran_FLAGS ${PFUNIT_EXTRA} )
         endif ( EXISTS ${PARENT_DIR}/pFUnit/pFUnitExtra.f90.in )
       else ( PFUNIT_FOUND )
         # pFUnit 3 is used.
         # Enable use of the pFUnitArgs::get_srcdir function.
-        string ( APPEND CMAKE_Fortran_FLAGS " -DPFUNIT_EXTRA_USAGE=pFUnitArgs -DPFUNIT_EXTRA_ARGS=get_srcdir" )
+        string ( APPEND CMAKE_Fortran_FLAGS ${PFUNIT_EXTRA} )
       endif ( PFUNIT_FOUND )
+    else ( USE_SRCDIR )
+      # Remove the extra flags, in case invoked from a sub-project.
+      string ( REPLACE "${PFUNIT_EXTRA}" "" CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}" )
     endif ( USE_SRCDIR )
     if ( PFUNIT_FOUND )
       string ( APPEND CMAKE_Fortran_FLAGS " -DFT_PFUNIT=4" )
