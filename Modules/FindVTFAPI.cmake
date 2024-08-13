@@ -8,8 +8,8 @@
 # library for writing VTF files for visualization in GLview.
 # Although it is not an open source module, we maintain the
 # coupling to it through this Find rule.
-# If it happens you should have a need for it, please contact
-# someone in the OPEN Fedem team (https://openfedem.org/about/)
+# If you should have a need for it, please contact someone in
+# the Open Fedem team (https://openfedem.org/developer_area/)
 # and we'll see what we can do about it.
 
 unset ( VTF_INCLUDE CACHE )
@@ -17,16 +17,15 @@ unset ( VTF_LIBRARY CACHE )
 
 find_path ( VTF_INCLUDE
             NAMES VTFAPI.h
-            PATHS C:/VTFAPI/include /usr/local/include
-           )
+            PATHS C:/VTFAPI/include
+            ${HOME}/.local/include /usr/local/include
+          )
 
 if ( VTF_INCLUDE )
   message ( STATUS "Found VTF API: ${VTF_INCLUDE}" )
-  include_directories ( ${VTF_INCLUDE} )
-
   find_library ( VTF_LIBRARY
                  NAMES VTFExpressAPI
-                 PATHS C:/VTFAPI/lib /usr/local/lib
+                 PATHS C:/VTFAPI/lib ${HOME}/.local/lib /usr/local/lib
                )
 endif ( VTF_INCLUDE )
 
