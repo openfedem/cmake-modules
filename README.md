@@ -48,6 +48,11 @@ and what they do:
   [lcov](https://github.com/linux-test-project/lcov), and
   [gcovr](https://gcovr.com/en/stable/) (on Linux only).
 
+In addition, some files named `Find<module>.cmake` are present.
+They define find-rules to be used by the cmake command
+[find_package()](https://cmake.org/cmake/help/latest/command/find_package.html),
+i.e., `find_package(<module>)` to locate and set up for build with the package `<module>`.
+
 ## Contributing
 
 This project is open to feature requests, suggestions, bug reports, etc.,
