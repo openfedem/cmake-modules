@@ -20,6 +20,7 @@ endif ( WIN32 OR WIN64 )
 
 option ( FTENV_VERBOSE "Enable more output during Configure" OFF )
 option ( FTENV_WARNINGS "Enable extra compiler warnings" ON )
+option ( BUILD_TESTS "Build and execute unit/regression tests" ON )
 
 option ( PLATFORM_BITSIZE_IS_64_BIT "Use default bitsize of 64 bit" ON )
 mark_as_advanced ( PLATFORM_BITSIZE_IS_64_BIT )
