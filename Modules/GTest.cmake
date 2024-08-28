@@ -15,6 +15,9 @@ endif ( POLICY CMP0057 )
 if ( POLICY CMP0074 )
   cmake_policy ( SET CMP0074 NEW ) # using <package>_ROOT variables
 endif ( POLICY CMP0074 )
+if ( POLICY CMP0144 )
+  cmake_policy ( SET CMP0144 OLD ) # ignoring <PACKAGE>_ROOT variables
+endif ( POLICY CMP0144 )
 
 # Find the google unit testing framework
 find_path ( GTEST_ROOT gtest.h PATHS "$ENV{GTEST_ROOT}/include/gtest" )

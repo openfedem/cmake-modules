@@ -7,6 +7,7 @@
 --->
 
 [![REUSE status](https://api.reuse.software/badge/github.com/openfedem/cmake-modules)](https://api.reuse.software/info/github.com/openfedem/cmake-modules)
+[![Unit testing](https://github.com/openfedem/cmake-modules/actions/workflows/run-test.yml/badge.svg)](https://github.com/openfedem/cmake-modules/actions/workflows/run-test.yml)
 
 # FEDEM cmake modules
 
