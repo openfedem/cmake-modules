@@ -18,7 +18,8 @@ if ( PFUNIT_PATH )
     endif ( POLICY CMP0074 )
     find_package ( PFUNIT )
     # Deactivate pFUnit 4 for Coverage build due to run-time problems.
-    # Probably a gfortran compiler issue. Revisit this when upgrading the build OS.
+    # Probably a gfortran compiler issue.
+    # Revisit this when upgrading the build OS.
     if ( PFUNIT_FOUND AND CMAKE_BUILD_TYPE STREQUAL "Coverage" )
       if ( CMAKE_HOST_SYSTEM_VERSION MATCHES "Microsoft" )
         message ( WARNING " pFUnit4 is disabled for Coverage build on Microsoft WSL.
@@ -32,7 +33,12 @@ if ( PFUNIT_PATH )
     endif ( PFUNIT_FOUND AND CMAKE_BUILD_TYPE STREQUAL "Coverage" )
   else ( PFUNIT_PATH MATCHES PFUNIT-4 )
     # Check for pFUnit 3
-    find_package ( PythonInterp 3 ) # enforce using python3
+    if ( CMAKE_VERSION VERSION_LESS 3.12 )
+      find_package ( PythonInterp 3 ) # enforce using python3
+    else ( CMAKE_VERSION VERSION_LESS 3.12 )
+      find_package ( Python3 )
+      set ( PythonInterp_FOUND ${Python3_FOUND} )
+    endif ( CMAKE_VERSION VERSION_LESS 3.12 )
     if ( PythonInterp_FOUND )
       find_package ( pFUnit )
     else ( PythonInterp_FOUND )
