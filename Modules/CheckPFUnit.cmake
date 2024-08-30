@@ -13,13 +13,14 @@ find_path ( PFUNIT_PATH
           )
 
 if ( PFUNIT_PATH )
-  if ( LINUX )
+  if ( LINUX AND CMAKE_VERSION VERSION_LESS 3.27 )
     list ( APPEND CMAKE_MODULE_PATH ${PFUNIT_PATH} )
-  else ( LINUX )
+  else ( LINUX AND CMAKE_VERSION VERSION_LESS 3.27 )
     list ( APPEND CMAKE_PREFIX_PATH ${PFUNIT_PATH} )
-  endif ( LINUX )
+  endif ( LINUX AND CMAKE_VERSION VERSION_LESS 3.27 )
   # Change to parent directory, if we found a cmake-folder
   if ( PFUNIT_PATH MATCHES "cmake$" )
     get_filename_component ( PFUNIT_PATH "${PFUNIT_PATH}" PATH )
   endif ( PFUNIT_PATH MATCHES "cmake$" )
+  message ( STATUS "Found pFUnit installation: ${PFUNIT_PATH}" )
 endif ( PFUNIT_PATH )

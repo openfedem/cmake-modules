@@ -23,10 +23,15 @@ jobs:
       - name: Install googletest
         uses: Bacondish2023/setup-googletest@v1
 
-      - name: Check out source repository
-        uses: actions/checkout@v3
+      - name: Silence some advice and hint
+        run: |
+          git config --global advice.detachedHead false
+          git config --global init.defaultBranch main
 
-      - name: Configure cmake
+      - name: Check out source repository
+        uses: actions/checkout@v4
+
+      - name: Configure tests
         run: GTEST_ROOT=/usr/local cmake -B ./build -S ./test -DCMAKE_BUILD_TYPE=Release
 
       - name: Build and execute tests
