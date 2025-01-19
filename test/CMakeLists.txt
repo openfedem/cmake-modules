@@ -4,15 +4,18 @@
 #
 # This file is part of FEDEM - https://openfedem.org
 
-cmake_minimum_required ( VERSION 2.8...3.5 )
+cmake_minimum_required ( VERSION 2.8...3.10 )
 
 # Project setup
 
 project ( cmake-test CXX )
 
 message ( STATUS "Generating build project for ${PROJECT_SOURCE_DIR}" )
+get_filename_component ( PROJECT_PARENT_DIR "${PROJECT_SOURCE_DIR}" PATH )
 find_path ( _MODULES FedemConfig.cmake
-            PATHS $ENV{CMAKE_MODULES} ../Modules )
+            PATHS $ENV{CMAKE_MODULES}
+            ${PROJECT_PARENT_DIR}/Modules
+          )
 if ( _MODULES )
   message ( STATUS "NOTE : Using ${_MODULES}" )
   list ( APPEND CMAKE_MODULE_PATH ${_MODULES} )
