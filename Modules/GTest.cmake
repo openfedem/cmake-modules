@@ -5,10 +5,10 @@
 # This file is part of FEDEM - https://openfedem.org
 
 # This cmake file adds the wrapper function add_cpp_test()
-# which adds a C++ unit test using the google test framwork
-# to the build project, if the googletest package is installed.
+# which adds a C++ unit test using the GoogleTest framework
+# to the build project, if that package is installed.
 
-# Needed to get google test working
+# Needed to get GoogleTest working
 if ( POLICY CMP0057 )
   cmake_policy ( SET CMP0057 NEW ) # allow the IN_LIST keyword
 endif ( POLICY CMP0057 )
@@ -19,7 +19,7 @@ if ( POLICY CMP0144 )
   cmake_policy ( SET CMP0144 OLD ) # ignoring <PACKAGE>_ROOT variables
 endif ( POLICY CMP0144 )
 
-# Find the google unit testing framework
+# Find the GoogleTest framework for unit testing
 find_path ( GTEST_ROOT gtest.h PATHS "$ENV{GTEST_ROOT}/include/gtest" )
 if ( GTEST_ROOT )
   find_package ( GTest )
@@ -30,6 +30,8 @@ if ( GTest_FOUND )
   # Wrapper for gtest_add_tests
   function ( add_cpp_test TARGET )
     message ( STATUS "INFORMATION : Adding unit tests from ${TARGET}" )
+    # GoogleTest now requires the C++17 standard
+    set_property ( TARGET ${TARGET} PROPERTY CXX_STANDARD 17 )
     gtest_add_tests ( ${TARGET} "--srcdir=${CMAKE_CURRENT_SOURCE_DIR}" AUTO )
     if ( ${ARGC} GREATER 1 )
       target_link_libraries ( ${TARGET} ${ARGN} )
