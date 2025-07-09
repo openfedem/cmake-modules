@@ -41,7 +41,7 @@ endif ( FTENV_WARNINGS )
 
 set ( UNIX_GFORTRAN_COMPILER_FLAGS "-cpp -frecursive -fwhole-file ${GCC_FLAGS}" )
 set ( UNIX_IFORT_COMPILER_FLAGS    "-nologo -libs:dll -fpp -threads" )
-set ( WIN_IFORT_COMPILER_FLAGS     "/nologo /libs:dll /fpp /threads /guard:cf /GS" )
+set ( WIN_IFORT_COMPILER_FLAGS     "/nologo /libs:dll /fpp /threads /guard:cf /GS /Qdiag-disable:10448" )
 set ( WIN_C_COMPILER_FLAGS         "/Zc:wchar_t /guard:cf /GS /EHsc /MD" )
 
 if ( USE_INTEL_FORTRAN )
