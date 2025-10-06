@@ -30,8 +30,6 @@ if ( GTest_FOUND )
   # Wrapper for gtest_add_tests
   function ( add_cpp_test TARGET )
     message ( STATUS "INFORMATION : Adding unit tests from ${TARGET}" )
-    # GoogleTest now requires the C++17 standard
-    set_property ( TARGET ${TARGET} PROPERTY CXX_STANDARD 17 )
     gtest_add_tests ( ${TARGET} "--srcdir=${CMAKE_CURRENT_SOURCE_DIR}" AUTO )
     if ( ${ARGC} GREATER 1 )
       target_link_libraries ( ${TARGET} ${ARGN} )
