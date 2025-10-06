@@ -73,7 +73,7 @@ if ( LINUX )
     set ( _CXX_FLAGS   ${UNIX_C_COMPILER_FLAGS} )
   else ( USE_INTEL_FORTRAN )
     # These flags apply for the GNU compilers only
-    set ( _CXX_FLAGS     "-std=c++14 ${UNIX_C_COMPILER_FLAGS}" )
+    set ( _CXX_FLAGS     "${UNIX_C_COMPILER_FLAGS}" )
     set ( _F_FLAGS_DEBUG "-g -fcheck=all" )
     set ( _C_FLAGS_DEBUG "-g" )
     set ( _C_FLAGS_COV   "--coverage" )
@@ -116,3 +116,7 @@ elseif ( NOT USE_INTEL_FORTRAN )
   set ( CMAKE_STATIC_LINKER_FLAGS_COVERAGE ${CMAKE_STATIC_LINKER_FLAGS_RELEASE} CACHE STRING "Coverage flags for linker" FORCE )
 
 endif ( WIN )
+
+# Enforce the C++17 language standard
+set ( CMAKE_CXX_STANDARD 17 )
+set ( CMAKE_CXX_STANDARD_REQUIRED ON )
